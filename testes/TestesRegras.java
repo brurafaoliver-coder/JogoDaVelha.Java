@@ -46,6 +46,12 @@ public class TestesRegras
         conferir(x.hashCode() == outroX.hashCode(), "Hash de marcas iguais");
         conferir(x.toString().equals("X") && o.getSimbolo() == 'O', "Simbolo e texto");
         conferir(x.equals(x.clone()) && x.clone() != x, "Copia da marca");
+        boolean copiaNula = false;
+        try { new Marca((Marca)null); }
+        catch (Exception erro) { copiaNula = erro.getMessage() != null; }
+        conferir(copiaNula, "Modelo de marca nulo");
+        Marca subclasse = new Marca('X') {};
+        conferir(!x.equals(subclasse) && !subclasse.equals(x), "Comparacao de classes em Marca");
         for (int codigo = Character.MIN_VALUE; codigo <= Character.MAX_VALUE; codigo++)
         {
             char simbolo = (char)codigo;
@@ -102,6 +108,16 @@ public class TestesRegras
         conferir(!tab.haMarcaNaPosicao(1,1) && !tab.haMarcaNaPosicao(2,2), "Matrizes independentes");
         conferir(!tab.equals(copia) && !tab.equals(null) && !tab.equals("tab"), "Igualdade diferente");
         conferir(tab.toString().contains("1   2   3"), "Coordenadas visiveis");
+        String vazio = "    1   2   3\n1     |   |  \n   ---+---+---\n" +
+                       "2     |   |  \n   ---+---+---\n3     |   |  \n";
+        conferir(new Tabuleiro().toString().equals(vazio), "Desenho completo do tabuleiro vazio");
+        Tabuleiro cheio = criar("XOXXOOOXX");
+        Tabuleiro copiaCheia = cheio.clone();
+        for (int lin = 0; lin < 3; lin++)
+            for (int col = 0; col < 3; col++)
+                conferir(cheio.getMarcaNaPosicao(lin,col) != copiaCheia.getMarcaNaPosicao(lin,col) &&
+                         cheio.getMarcaNaPosicao(lin,col).equals(copiaCheia.getMarcaNaPosicao(lin,col)),
+                         "Copia profunda das nove marcas");
         boolean modeloNulo = false;
         try { new Tabuleiro((Tabuleiro)null); }
         catch (Exception erro) { modeloNulo = true; }
@@ -246,6 +262,16 @@ public class TestesRegras
         conferir(copia.getMarcaDoVencedor().equals(new Marca('O')) &&
                  clone.getMarcaDoVencedor().equals(new Marca('O')), "Copias observam o mesmo jogo");
         conferir(original.toString().contains(tab.toString()), "Texto do analista");
+        AnalistaSituacional equivalente = new AnalistaSituacional(new Tabuleiro(tab));
+        conferir(original.equals(equivalente) && equivalente.equals(original) &&
+                 original.hashCode() == equivalente.hashCode(), "Analistas sobre matrizes diferentes e iguais");
+        boolean copiaAnalistaNula = false;
+        try { new AnalistaSituacional((AnalistaSituacional)null); }
+        catch (Exception erro) { copiaAnalistaNula = true; }
+        conferir(copiaAnalistaNula, "Modelo de analista nulo");
+        Marca fornecida = new Marca('O');
+        conferir(new JogadorAutomatico(new Tabuleiro(), fornecida).getMarca() == fornecida,
+                 "Marca fornecida nao e sorteada novamente");
 
         boolean tabNulo = false, marcaNula = false, analistaNulo = false;
         try { new JogadorAutomatico(null); }

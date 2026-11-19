@@ -12,6 +12,7 @@ public class TestesTerminal
 {
     private static int verificacoes;
     private static int sessoes;
+    private static Path pastaRelatorios;
     private static final String MARCA = "Escolha sua marca (X ou O): ";
     private static final String LINHA = "Digite a linha onde deseja jogar (1, 2 ou 3): ";
     private static final String COLUNA = "Digite a coluna onde deseja jogar (1, 2 ou 3): ";
@@ -185,6 +186,21 @@ public class TestesTerminal
                      contar(trecho, "DEU VELHA!") == 1, "Um unico resultado por partida");
             conferir(contar(trecho, "Jogada realizada com sucesso:") == jogadas.size(),
                      "Quantidade de jogadas humanas");
+            Matcher turnos = Pattern.compile("Sua vez de jogar! Sua marca e: ([XO])|Vez do computador \\(([XO])\\)\\.").matcher(trecho);
+            boolean esperadoHumano = humanoComeca;
+            int quantidadeTurnos = 0;
+            while (turnos.find())
+            {
+                boolean turnoHumano = turnos.group(1) != null;
+                conferir(turnoHumano == esperadoHumano, "Alternancia de todos os turnos");
+                char marcaTurno = (turnoHumano ? turnos.group(1) : turnos.group(2)).charAt(0);
+                conferir(marcaTurno == (turnoHumano ? humano : (humano == 'X' ? 'O' : 'X')),
+                         "Marca de cada turno");
+                conferir(turnos.start() < trecho.indexOf(mensagem), "Nenhum turno apos o resultado");
+                esperadoHumano = !esperadoHumano;
+                quantidadeTurnos++;
+            }
+            conferir(quantidadeTurnos >= 5 && quantidadeTurnos <= 9, "Quantidade valida de turnos");
             if (invalidarJogadas)
                 conferir(trecho.contains("Entrada invalida") && trecho.contains("Posicao invalida") &&
                          trecho.contains("ja esta ocupada"), "Erros de entrada no programa real");
@@ -205,9 +221,7 @@ public class TestesTerminal
         {
             if (processo.isAlive()) processo.destroyForcibly();
             lerDisponivel();
-            Path pasta = Paths.get("build", "relatorios");
-            Files.createDirectories(pasta);
-            Files.write(pasta.resolve(String.format("terminal-%02d.txt", numero)),
+            Files.write(pastaRelatorios.resolve(String.format("terminal-%02d.txt", numero)),
                         texto.toString().getBytes(StandardCharsets.UTF_8));
             entrada.close();
             saida.close();
@@ -309,8 +323,45 @@ public class TestesTerminal
         System.out.println("TERMINAL: EOF na marca, linha, coluna e repeticao aprovados.");
     }
 
+    private static void testarAlternanciaLonga() throws Exception
+    {
+        try (Sessao sessao = new Sessao())
+        {
+            boolean marcaAntecipada = false;
+            boolean primeiroHumano = false;
+            StringBuilder sequencia = new StringBuilder();
+            for (int partida = 0; partida < 12; partida++)
+            {
+                sessao.iniciarPartida(marcaAntecipada, true);
+                if (partida == 0) primeiroHumano = sessao.humanoComeca;
+                boolean esperado = partida % 2 == 0 ? primeiroHumano : !primeiroHumano;
+                conferir(sessao.humanoComeca == esperado, "Iniciante da partida " + (partida + 1));
+                if (partida > 0) sequencia.append(", ");
+                sequencia.append(partida + 1).append('=').append(sessao.humanoComeca ? 'H' : 'C');
+                conferir(sessao.jogar("EMPATE", true), "Partida completa da serie longa");
+                if (partida < 11)
+                {
+                    marcaAntecipada = !sessao.humanoComeca;
+                    sessao.enviar("talvez\nS\n" + (marcaAntecipada ? "O\n" : ""));
+                }
+            }
+            sessao.enviar("N\n");
+            sessao.finalizar();
+            conferir(contar(sessao.texto.toString(), "=== Nova partida ===") == 12, "Nenhuma partida omitida");
+            conferir(contar(sessao.texto.toString(), "DEU VELHA!") == 12, "Doze resultados conferidos");
+            String resumo = "Sessao " + sessao.numero + ": " + sequencia;
+            Files.write(pastaRelatorios.resolve("alternancia.txt"),
+                        resumo.getBytes(StandardCharsets.UTF_8));
+            System.out.println("ALTERNANCIA: " + resumo);
+        }
+        System.out.println("ALTERNANCIA: 12 partidas na mesma JVM, com entradas invalidas, aprovadas.");
+    }
+
     public static void main(String[] args) throws Exception
     {
+        Path raizRelatorios = Paths.get("build", "relatorios");
+        Files.createDirectories(raizRelatorios);
+        pastaRelatorios = Files.createTempDirectory(raizRelatorios, "terminal-");
         for (boolean humanoComeca : new boolean[] {false, true})
             for (char humano : new char[] {'X','O'})
             {
@@ -322,8 +373,9 @@ public class TestesTerminal
             }
         testarResultados();
         testarReinicio();
+        testarAlternanciaLonga();
         testarEOF();
         System.out.println("TERMINAL: " + verificacoes + " verificacoes em " + sessoes + " processos reais de Velha.");
-        System.out.println("O sorteio original foi mantido; logs em build/relatorios/terminal-*.txt.");
+        System.out.println("O sorteio original foi mantido; logs desta execucao em " + pastaRelatorios + ".");
     }
 }

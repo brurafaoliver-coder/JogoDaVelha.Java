@@ -65,7 +65,10 @@ java -ea -cp build TestesTerminal
 ~~~
 
 Os comandos Java devem terminar sem erros. TestesTerminal grava as conversas
-dos processos em build/relatorios/terminal-*.txt.
+em uma pasta exclusiva de cada execução: build/relatorios/terminal-*/terminal-*.txt.
+O resumo alternancia.txt e a conversa da sessão longa registram todas as
+12 partidas consecutivas, sem omissões. A primeira é sorteada; as outras
+são conferidas deterministicamente a partir desse resultado.
 
 ## Como jogar
 
@@ -132,7 +135,8 @@ Os testes usam os fontes reais, incluindo o Tabuleiro real:
 - Entradas inválidas, conversão de coordenadas, EOF e leitor entre partidas.
 - Falhas de leitura e consulta/escrita injetadas para conferir suas causas.
 - Processos reais de Velha: vitória humana, derrota, empate, entradas inválidas,
-  três partidas consecutivas, reinício vazio, alternância, S/N e EOF.
+  três partidas consecutivas e uma sessão adicional de 12 partidas,
+  reinício vazio, alternância de todos os turnos e iniciantes, S/N e EOF.
 
 Os testes exaustivos de regras incluem estados artificiais e não afirmam que todos
 eles sejam alcançáveis em uma partida. Os testes de terminal usam pipes para
@@ -142,3 +146,7 @@ O número de processos pode variar por causa do sorteio.
 
 O programa integrado pode ser demonstrado com os mesmos comandos de execução,
 sem executar os testes. Não são necessários frameworks, extensões da IDE ou rede.
+
+A matriz completa dos requisitos e a comparação com o Velha.zip original estão
+em ACEITACAO.md. A pasta aceitacao/ contém os resultados registrados e a conversa
+completa das 12 partidas usadas na auditoria de aceitação.
