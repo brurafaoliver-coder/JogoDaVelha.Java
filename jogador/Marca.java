@@ -63,7 +63,9 @@ public class Marca
             ret = new Marca(this);
         }
         catch (Exception erro)
-        {}
+        {
+            throw new IllegalStateException("Nao foi possivel copiar a marca.", erro);
+        }
         return ret;
     }
 }

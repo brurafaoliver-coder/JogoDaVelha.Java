@@ -1,0 +1,17 @@
+﻿Validacao independente do pacote apos as correcoes da auditoria.
+Pasta nova: C:\Users\julia\AppData\Local\Temp\poo-aceitacao-zip-b8dc0c23554f4dc5a7cbcda343ef4ddc
+APROVADO: sete fontes de producao compilados juntos, sem avisos e sem classes externas.
+REGRAS: 735393 verificacoes aprovadas.
+65.536 caracteres; 19.683 tabuleiros do analista; 39.366 cenarios do computador.
+Inclui estados artificiais para conferir regras locais; todas as classes sao reais.
+ENTRADA: 11 verificacoes aprovadas.
+TERMINAL: VITORIA e entradas invalidas aprovados.
+TERMINAL: DERROTA e entradas invalidas aprovados.
+TERMINAL: EMPATE e entradas invalidas aprovados.
+TERMINAL: tres partidas, reinicio vazio, alternancia, S/N e entrada antecipada aprovados.
+ALTERNANCIA: Sessao 5: 1=C, 2=H, 3=C, 4=H, 5=C, 6=H, 7=C, 8=H, 9=C, 10=H, 11=C, 12=H
+ALTERNANCIA: 12 partidas na mesma JVM, com entradas invalidas, aprovadas.
+TERMINAL: EOF na marca, linha, coluna e repeticao aprovados.
+TERMINAL: 735 verificacoes em 9 processos reais de Velha.
+O sorteio original foi mantido; logs desta execucao em build\relatorios\terminal-5783005215117499413.
+LEITURA: falhas simuladas nas tres leituras preservam sua causa.

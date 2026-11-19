@@ -1,0 +1,34 @@
+﻿Auditoria de aceitacao sobre a base 1455b3312adf03499ff3e74849bcc51d89b57691.
+Microsoft OpenJDK 17.0.11; Windows/PowerShell.
+Saida de compilacao nova: build\aceitacao-805496ac783049649a46aa93a5b33620
+COMPILACAO: os sete fontes reais juntos, sem erros nem avisos; classpath e sourcepath vazios.
+COMPILACAO: jogo e testes juntos, sem erros nem avisos.
+REGRAS: 735393 verificacoes aprovadas.
+65.536 caracteres; 19.683 tabuleiros do analista; 39.366 cenarios do computador.
+Inclui estados artificiais para conferir regras locais; todas as classes sao reais.
+ENTRADA: 11 verificacoes aprovadas.
+Escolha sua marca (X ou O): 
+Sua vez de jogar! Sua marca e: X
+Tabuleiro atual:
+    1   2   3
+1     |   |  
+   ---+---+---
+2     |   |  
+   ---+---+---
+3     |   |  
+
+Digite a linha onde deseja jogar (1, 2 ou 3): 
+Deseja jogar mais uma partida? (S/N): 
+LEITURA: falhas simuladas nas tres leituras preservam sua causa.
+TERMINAL: VITORIA e entradas invalidas aprovados.
+TERMINAL: DERROTA e entradas invalidas aprovados.
+TERMINAL: EMPATE e entradas invalidas aprovados.
+TERMINAL: tres partidas, reinicio vazio, alternancia, S/N e entrada antecipada aprovados.
+ALTERNANCIA: Sessao 5: 1=C, 2=H, 3=C, 4=H, 5=C, 6=H, 7=C, 8=H, 9=C, 10=H, 11=C, 12=H
+ALTERNANCIA: 12 partidas na mesma JVM, com entradas invalidas, aprovadas.
+TERMINAL: EOF na marca, linha, coluna e repeticao aprovados.
+TERMINAL: 737 verificacoes em 9 processos reais de Velha.
+O sorteio original foi mantido; logs desta execucao em build\relatorios\terminal-13212392136466187012.
+Conversa completa da serie de 12 partidas: aceitacao/alternancia-12-partidas.txt.
+As entradas foram automatizadas por pipes. A classe principal real foi executada em JVMs distintas por sessao.
+O sorteio inicial nao foi forcado; a expectativa de alternancia das demais partidas e deterministica.

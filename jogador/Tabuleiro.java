@@ -1,3 +1,32 @@
+package jogador;
+
+import java.util.Arrays;
+
+public class Tabuleiro implements Cloneable
+{
+    // a principio, toda igual a null
+    private Marca matriz [][] = new Marca [3][3];
+
+    public Tabuleiro ()
+    {
+        // A matriz inicializada acima possui nove posicoes vazias.
+    }
+
+    private void validarPosicao (int lin, int col) throws Exception
+    {
+        if (lin < 0 || lin > 2 || col < 0 || col > 2)
+            throw new Exception("Posicao invalida: indices devem estar entre 0 e 2.");
+    }
+
+    public boolean haMarcaNaPosicao (int lin, int col) throws Exception
+    {
+        // Retornar false para null e true para uma posicao preenchida.
+        validarPosicao(lin, col);
+        return matriz[lin][col] != null;
+    }
+
+    public Marca getMarcaNaPosicao (int lin, int col) throws Exception
+    {
         validarPosicao(lin, col);
         return matriz[lin][col];
     }

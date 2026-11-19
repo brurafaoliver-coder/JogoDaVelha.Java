@@ -1,0 +1,54 @@
+﻿Comparacao estatica com o esqueleto original Velha.zip
+SHA256: 7E11C116198614C0B12A582173FBAAB97054EF618C375913707667060F5A02FD
+
+Velha/AnalistaSituacional.java -> AnalistaSituacional.java
+APROVADO: public AnalistaSituacional (Tabuleiro tab) throws Exception
+APROVADO: public Marca getMarcaDoVencedor ()
+APROVADO: private boolean tabuleiroCheio ()
+APROVADO: public boolean fimDeJogo ()
+APROVADO: public String toString ()
+APROVADO: public boolean equals (Object obj)
+APROVADO: public int hashCode ()
+
+Velha/jogador/Jogador.java -> jogador\Jogador.java
+
+Velha/jogador/JogadorAutomatico.java -> jogador\JogadorAutomatico.java
+APROVADO: public JogadorAutomatico (Tabuleiro tab) throws Exception
+APROVADO: public JogadorAutomatico (Tabuleiro tab, Marca mrc) throws Exception
+APROVADO: public Marca getMarca ()
+APROVADO: public void facaSuaJogada ()
+APROVADO: os 24 comentarios de tentativa foram preservados na ordem original.
+
+Velha/jogador/JogadorHumano.java -> jogador\JogadorHumano.java
+APROVADO: public JogadorHumano (Tabuleiro tab) throws Exception
+APROVADO: public JogadorHumano (Tabuleiro tab, Marca mrc) throws Exception
+APROVADO: public Marca getMarca ()
+APROVADO: public void facaSuaJogada ()
+APROVADO: public void vcGanhou ()
+APROVADO: public void vcPerdeu ()
+APROVADO: public void deuVelha ()
+APROVADO: public boolean querMaisUmaPartida ()
+
+Velha/Marca.java -> jogador\Marca.java
+APROVADO: public Marca (char smb) throws Exception
+APROVADO: public char getSimbolo ()
+APROVADO: public String toString ()
+APROVADO: public boolean equals (Object obj)
+APROVADO: public int hashCode ()
+
+Velha/Tabuleiro.java -> jogador\Tabuleiro.java
+APROVADO: public boolean haMarcaNaPosicao (int lin, int col) throws Exception
+APROVADO: public Marca getMarcaNaPosicao (int lin, int col) throws Exception
+APROVADO: public void setMarcaNaPosicao (Marca mrc, int lin, int col) throws Exception
+APROVADO: public String toString ()
+APROVADO: public boolean equals (Object obj)
+APROVADO: public int hashCode ()
+APROVADO: public Tabuleiro (Tabuleiro modelo) throws Exception
+APROVADO: Object clone() -> Tabuleiro clone(), retorno covariante compativel.
+
+Velha/Velha.java -> Velha.java
+APROVADO: public static void main (String args [])
+
+APROVADO: sete classes, contratos originais preservados e nenhum catch vazio na producao.
+Ajustes necessarios: Marca/Tabuleiro no pacote jogador; construtor vazio de Tabuleiro; leitor humano compartilhado; EOF e empate diagnosticados.
+O ZIP original contem somente os sete fontes. Nao contem enunciado formal ou rubrica de avaliacao separados.

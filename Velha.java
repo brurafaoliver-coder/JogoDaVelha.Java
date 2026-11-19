@@ -14,11 +14,13 @@ public class Velha
         AnalistaSituacional analista;
 
         boolean jogadorHumanoComeca = (int)(Math.random()*2) == 0;
+        boolean continuar;
 
         do
         {
             try
             {
+                System.out.println("\n=== Nova partida ===");
                 tabDoJogo = new Tabuleiro ();
 
                 if (jogadorHumanoComeca)
@@ -38,6 +40,12 @@ public class Velha
 
                 analista = new AnalistaSituacional (tabDoJogo);
 
+                System.out.println("Voce joga com " + jogadorH.getMarca() +
+                                   ". Computador joga com " + jogadorA.getMarca() + ".");
+                System.out.println("Quem comeca: " + (jogadorHumanoComeca ? "humano." : "computador."));
+                System.out.println("Tabuleiro inicial:");
+                System.out.println(tabDoJogo);
+
                 if (jogadorHumanoComeca)
                     jogador=jogadorH;
                 else
@@ -45,7 +53,17 @@ public class Velha
 
                 do
                 {
+                    if (jogador == jogadorA)
+                        System.out.println("\nVez do computador (" + jogadorA.getMarca() + ").");
+
                     jogador.facaSuaJogada();
+
+                    if (jogador == jogadorA)
+                        System.out.println(tabDoJogo);
+
+                    // Verificar o fim antes de passar a vez ao proximo jogador.
+                    if (analista.fimDeJogo())
+                        break;
 
                     if (jogador==jogadorH)
                         jogador=jogadorA;
@@ -54,19 +72,32 @@ public class Velha
                 }
                 while (!analista.fimDeJogo());
 
-                if (analista.getMarcaDoVencedor().equals(jogadorH.getMarca()))
+                Marca vencedor = analista.getMarcaDoVencedor();
+                if (vencedor == null)
+                    jogadorH.deuVelha ();
+                else if (vencedor.equals(jogadorH.getMarca()))
                     jogadorH.vcGanhou ();
                 else
-                    if (analista.getMarcaDoVencedor().equals(jogadorA.getMarca()))
-                        jogadorH.vcPerdeu ();
-                    else
-                        jogadorH.deuVelha ();
+                    jogadorH.vcPerdeu ();
 
                 jogadorHumanoComeca = !jogadorHumanoComeca;
+                continuar = jogadorH.querMaisUmaPartida();
             }
             catch (Exception e)
-            {}
+            {
+                if (e instanceof EOFException ||
+                    (e instanceof UncheckedIOException && e.getCause() instanceof EOFException))
+                    System.out.println("\nEntrada encerrada. Ate logo!");
+                else
+                {
+                    System.err.println("Nao foi possivel continuar a partida.");
+                    e.printStackTrace(System.err);
+                }
+                return;
+            }
         }
-        while (jogadorH.querMaisUmaPartida());
+        while (continuar);
+
+        System.out.println("Ate logo!");
     }
 }
