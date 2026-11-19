@@ -9,10 +9,9 @@ public class Marca
         // seja 'X' ou 'O' e coloca-lo em
         // simbolo
         // dar excecao em caso de valor invalido
-        char s = Character.toUpperCase(smb);
-        if (s != 'X' && s != 'O')
+        if (smb != 'X' && smb != 'O')
             throw new Exception("Simbolo invalido: deve ser 'X' ou 'O'");
-        this.simbolo = s;
+        this.simbolo = smb;
     }
 
     public char getSimbolo ()
@@ -23,7 +22,7 @@ public class Marca
     @Override
     public String toString ()
     {
-        return "" + simbolo;
+        return ""+simbolo;
     }
 
     @Override
